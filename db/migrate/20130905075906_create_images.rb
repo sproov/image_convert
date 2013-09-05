@@ -10,5 +10,7 @@ class CreateImages < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :images, :external_id
+    add_index :images, :producer_id
   end
 end

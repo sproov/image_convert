@@ -1,4 +1,5 @@
 class Image < ActiveRecord::Base
+  require 'open-uri'
 
   serialize :dimensions
   attr_accessible :external_id, :url, :producer_id, :dimensions
@@ -6,8 +7,18 @@ class Image < ActiveRecord::Base
 
   scope :processed, where(processed: true)
 
+  validates :external_id, presence: true, numericality: true, uniqueness: true
+  validates :producer_id, presence: true, numericality: true
+  validates :url, presence: true
+  #TODO validate format of url
+
   def self.by_external_id(external_id)
     where(external_id: external_id).first
+  end
+
+  def self.process_images_by_id(id)
+    images = Image.where(id: id)
+    images.map(&:process_images)
   end
 
   def styles
@@ -16,6 +27,13 @@ class Image < ActiveRecord::Base
       all_styles[dimension_to_style(d).to_sym] = dimension_to_style(d)
     end
     all_styles
+  end
+
+  def process_images
+    asset = open(url)
+    asset.reprocess!
+    processed = true
+    save
   end
 
   private

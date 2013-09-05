@@ -43,4 +43,7 @@ ActiveRecord::Schema.define(:version => 20130905080325) do
     t.datetime "updated_at",                            :null => false
   end
 
+  add_index "images", ["external_id"], :name => "index_images_on_external_id"
+  add_index "images", ["producer_id"], :name => "index_images_on_producer_id"
+
 end

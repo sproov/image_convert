@@ -4,8 +4,12 @@ class ImagesController < ApplicationController
 
   def create
     @image = Image.new(params)
-
-    head :ok
+    if @image.save
+      @image.process_images
+      head :ok
+    else
+      render :json => { :errors => @image.errors.full_messages }
+    end
   end
 
   def show
