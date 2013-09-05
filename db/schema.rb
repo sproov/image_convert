@@ -35,7 +35,10 @@ ActiveRecord::Schema.define(:version => 20130905080325) do
     t.string   "asset_content_type"
     t.integer  "asset_file_size"
     t.datetime "asset_updated_at"
+    t.boolean  "processed",          :default => false
     t.string   "dimensions"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
 end

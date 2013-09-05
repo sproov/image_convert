@@ -8,6 +8,7 @@ gem 'rails', '3.2.14'
 gem 'sqlite3'
 gem 'delayed_job_active_record'
 gem 'paperclip'
+gem 'json'
 
 group :development, :test do
   gem 'better_errors'
