@@ -1,22 +1,19 @@
 class Image < ActiveRecord::Base
 
   has_attached_file :asset, styles: Proc.new { |asset| asset.instance.styles }
-  has_attached_file :asset
-  before_save :parse_dimensions
-  # before_save :extract_dimensions
-  # serialize :dimensions
-
+  serialize :dimensions
 
   def styles
-    self.dimensions
+    all_styles = {}
+    dimensions.each do |d|
+      all_styles[dimension_to_style(d).to_sym] = dimension_to_style(d)
+    end
+    all_styles
   end
 
-  def image?
-    asset_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png)$}
-  end
-
-  def parse_dimensions
-    binding.pry
+  private
+  def dimension_to_style(dimension)
+    "#{dimension[:width]}x#{dimension[:height]}"
   end
 
 end
