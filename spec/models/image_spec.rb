@@ -38,7 +38,20 @@ describe Image do
       images.include?(@processed_1).should be_true
       images.include?(@unprocessed).should be_false
     end
+  end
 
+  describe "by_external_id" do
+    before { @image = FactoryGirl.create(:image, external_id: 123) }
+
+    it "should correctly return an image by external_id" do
+      result = Image.by_external_id(123)
+      result.should == @image
+    end
+
+    it "should return nil for an unknown external_id" do
+      result = Image.by_external_id(666)
+      result.should be_nil
+    end
   end
 
 end

@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(:version => 20130905080325) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "images", :force => true do |t|
+    t.integer  "external_id"
+    t.integer  "producer_id"
     t.string   "url"
     t.string   "asset_file_name"
     t.string   "asset_content_type"

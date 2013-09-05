@@ -1,9 +1,14 @@
 class Image < ActiveRecord::Base
 
-  has_attached_file :asset, styles: Proc.new { |asset| asset.instance.styles }
   serialize :dimensions
+  attr_accessible :external_id, :url, :producer_id, :dimensions
+  has_attached_file :asset, styles: Proc.new { |asset| asset.instance.styles }
 
   scope :processed, where(processed: true)
+
+  def self.by_external_id(external_id)
+    where(external_id: external_id).first
+  end
 
   def styles
     all_styles = {}
